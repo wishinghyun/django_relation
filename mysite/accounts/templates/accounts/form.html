@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block body %}
+{% if request.resolver_match.url_name == 'update' %}
+<h1>User Edit</h1>
+{% elif request.resolver_match.url_name == 'signup' %}
+<h1>User Create</h1>
+{% elif request.resolver_match.url_name == 'login' %}
+<h1>Login</h1>
+{% elif request.resolver_match.url_name == 'change_password' %}
+<h1>User Password Change</h1>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    {% if request.resolver_match.url_name == 'update' %}
+    <input type="submit" value="수정하기"/>
+    {% elif request.resolver_match.url_name == 'signup' %}
+    <input type="submit" value="가입하기"/>
+    {% elif request.resolver_match.url_name == 'login' %}
+    <input type="submit" value="로그인"/>
+    {% elif request.resolver_match.url_name == 'change_password' %}
+    <input type="submit" value="변경하기"/>
+    {% endif %}
+
+</form>
+{% endblock %}

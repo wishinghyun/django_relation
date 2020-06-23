@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 # DVDH
 # django가 주는 views에서 쓸 decorators http를 위한
 from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 from .models import Article, Comment
 from .forms import ArticleForm, CommentForm
+from IPython import embed
 
 # Create your views here.
 def index(request):
@@ -49,7 +51,7 @@ def comment_delete(request, article_pk, comment_pk):
     comment.delete()
     return redirect('articles:detail', article_pk)
 
-
+@login_required
 def create(request):
     if request.method == "POST":
         form = ArticleForm(request.POST)
@@ -63,6 +65,7 @@ def create(request):
     }
     return render(request, 'articles/form.html', context)
 
+@login_required
 def update(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     if request.method == "POST":
@@ -79,6 +82,7 @@ def update(request, article_pk):
 
 @require_POST
 def delete(request, article_pk):
-    article = get_object_or_404(Article, pk=article_pk)
-    article.delete()
+    if request.user.is_authenticated:
+        article = get_object_or_404(Article, pk=article_pk)
+        article.delete()
     return redirect('articles:index')
