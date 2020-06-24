@@ -5,6 +5,12 @@
 <p>{{ article.pk }}번째 글</p>
 <h2>{{ article.title }}</h2>
 <h3>{{ article.content }}</h3>
+{% if article.image %}
+  <img src="{{ article.image_thumbnail.url }}" alt="{{ article.image }}">
+{% else %}
+  <img src="" alt="이미지가 없습니다">
+{% endif %}
+<h5>작성자 : {{ article.user.username }}</h5>
 <hr>
 {% if user.is_authenticated %}
 <form action="{% url 'articles:comment_create' article.pk %}" method="POST">
@@ -25,16 +31,18 @@
 <table>
 {% for comment in comments %}
   <tr style="text-align: center;">
-    <td style="border: black solid 1px; width: 30px;">{{ comment.pk }}</td>
-    <td style="border: black solid 1px; width: 400px; padding-left: 10px; text-align: left;">{{ comment.content }}</td>
+    <td style="border: black solid 1px; width: 30px; height: 40px;">{{ comment.pk }}</td>
+    <td style="border: black solid 1px; width: 400px; padding-left: 10px; text-align: left;">{{ comment.user }} : {{ comment.content }}</td>
     {% if user.is_authenticated %}
-    <td style="border: black solid 1px; width: 70px;"><a href="#">수정</a></td>
-    <td style="border: black solid 1px; width: 70px;">
-      <form action="{% url 'articles:comment_delete' article.pk comment.pk %}" method="POST">
-        {% csrf_token %}
-        <input type="submit" value="삭제" class="btn btn-danger">
-      </form>
-    </td>
+      {% if request.user == comment.user %}
+      <td style="border: black solid 1px; width: 70px;"><a href="#">수정</a></td>
+      <td style="border: black solid 1px; width: 70px;">
+        <form action="{% url 'articles:comment_delete' article.pk comment.pk %}" method="POST">
+          {% csrf_token %}
+          <input type="submit" value="삭제" class="btn btn-danger">
+        </form>
+      </td>
+      {% endif %}
     {% endif %}
   </tr>
 {% empty %}
@@ -43,14 +51,14 @@
 </table>
 <hr>
 {% if user.is_authenticated %}
-<a href="{% url 'articles:update' article.pk %}">[UPDATE]</a>
+  {% if request.user == article.user %}
+  <a href="{% url 'articles:update' article.pk %}">[UPDATE]</a>
+  <form action="{% url 'articles:delete' article.pk %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="DELETE" class="btn btn-primary">
+  </form>
+  {% endif %}
 {% endif %}
 <a href="{% url 'articles:index' %}">[back]</a>
-{% if user.is_authenticated %}
-<form action="{% url 'articles:delete' article.pk %}" method="POST">
-  {% csrf_token %}
-  <input type="submit" value="DELETE" class="btn btn-primary">
-</form>
-    {% endif %}
 
 {% endblock %}
