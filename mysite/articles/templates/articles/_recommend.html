@@ -1,0 +1,8 @@
+<div style="float: left; width: 33%;">
+  {% if user in article.recommend_users.all %}
+    <a href="{% url 'articles:recommend' article.pk %}"><i class="fas fa-thumbs-up"></i></a>
+  {% else %}
+    <a href="{% url 'articles:recommend' article.pk %}"><i class="far fa-thumbs-up"></i></a>
+  {% endif %}
+  <p>추천 : {{ article.recommend_users.all|length }}개</p>
+</div>

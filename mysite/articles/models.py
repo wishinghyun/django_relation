@@ -17,20 +17,30 @@ class Article(models.Model):
     image = models.ImageField(blank=True, upload_to=articles_image_path)
     image_thumbnail = ImageSpecField(
         source='image',
-        processors=[Thumbnail(200,300)],
+        processors=[Thumbnail(500,300)],
         format='JPEG',
         options={'quality':90}
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    like_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='like_articles',
+        blank=True
+    )
+    recommend_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='recommend_articles',
+        blank=True
+    )
 
     def __str__(self):
         return f'{self.pk}번째 글, {self.title}-{self.content}'
 
 class Comment(models.Model):
     # 멤버 변수 = models.외래키(참조하는 객체, 삭제 되었을 때 처리 방법)
-    # 역참조 값 설정 related_name='comments'
+    # 역참조 값 설정 related_name='comments' => 1:N에서는 사용 잘 안함, M:N일때 사용
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     content = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)

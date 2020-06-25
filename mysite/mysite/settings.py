@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'modelrelation',
     'articles',
     'accounts',
     'django_extensions',
@@ -129,3 +130,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/' # 이미지 불러오는 경로
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # 이미지 저장 경로
+
+#AUTH_USER_MODEL 변경하면 DB 날려야된다
+AUTH_USER_MODEL = 'accounts.User'

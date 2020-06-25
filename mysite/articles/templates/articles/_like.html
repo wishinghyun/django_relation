@@ -1,0 +1,8 @@
+<div style="float: left; width: 33%;">
+  {% if user in article.like_users.all %}
+    <a href="{% url 'articles:like' article.pk %}"><i class="fas fa-heart fa-lg text-danger"></i></a>
+  {% else %}
+    <a href="{% url 'articles:like' article.pk %}"><i class="far fa-heart fa-lg text-danger"></i></a>
+  {% endif %}
+  <p>좋아요 : {{ article.like_users.count }}개</p>
+</div>

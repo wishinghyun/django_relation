@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block body %}
+<h1>{{ person.username }}</h1>
+<div class="container">
+  <div class="row">
+    
+    <div class="col-sm">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">내가 작성한 글</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for article in person.article_set.all %}
+          <tr>
+            <th scope="row">1</th>
+            <td>{{ article.title}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-sm">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">좋아요 누른 글</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for like in person.like_articles.all %}
+          <tr>
+            <th scope="row">1</th>
+            <td>{{ like.title}}</td>
+          {% empty %}
+          <tr>
+            <td>댓글을 단 적이 없습니다</td>
+          </tr>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="col-sm">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">나의 추천 글</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for recommend in person.recommend_articles.all %}
+          <tr>
+            <th scope="row">1</th>
+            <td>{{ recommend.title}}</td>
+          {% empty %}
+          <tr>
+            <td>댓글을 단 적이 없습니다</td>
+          </tr>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="col-sm">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">내가 작성한 댓글</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for comment in person.comment_set.all %}
+          <tr>
+            <th scope="row">1</th>
+            <td>{{ comment.content}}</td>
+          {% empty %}
+          <tr>
+            <td>댓글을 단 적이 없습니다</td>
+          </tr>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

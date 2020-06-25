@@ -2,7 +2,6 @@
 {% block body %}
 <h1>상세 페이지</h1>
 <hr>
-<p>{{ article.pk }}번째 글</p>
 <h2>{{ article.title }}</h2>
 <h3>{{ article.content }}</h3>
 {% if article.image %}
@@ -27,7 +26,6 @@
 {% endif %}
 <hr>
 <h3>댓글 목록 ({{ comments|length }}개)</h3>
-<p>{{ article.comment_set.all|length }}</p>
 <table>
 {% for comment in comments %}
   <tr style="text-align: center;">

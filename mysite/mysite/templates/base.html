@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/684edb5f4d.js" crossorigin="anonymous"></script>
   {% bootstrap_css %}
   <title>Document</title>
 </head>
@@ -15,23 +16,29 @@
       </div>
       {% endfor %}
   {% endif %}
-  
+
   {% if user.is_authenticated %}
-  <h1>{{ user.username }}</h1>
-    <a href="{% url 'accounts:logout' %}">로그아웃</a>
-    <a href="{% url 'accounts:update' %}">회원정보수정</a>
-    <a href="{% url 'accounts:change_password' %}">비밀번호 수정</a>
-  {% else %}
-    <a href="{% url 'accounts:login' %}">로그인</a>
-    <a href="{% url 'accounts:signup' %}">회원가입</a>
-  {% endif %}
-  
-  {% if user.is_authenticated %}
-  <form action="{% url 'accounts:delete' %}" method="POST">
-    {% csrf_token %}
-    <input type="submit" value="회원탈퇴">
-  </form>
-  {% endif %}
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
+    <a class="navbar-brand" href="{% url 'accounts:profile' user.username %}">{{ user.username }}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link active" href="{% url 'accounts:update' %}">회원정보 수정 <span class="sr-only">(current)</span></a>
+        <a class="nav-item nav-link" href="{% url 'accounts:change_password' %}">비밀번호 수정</a>
+        <form class="nav-item nav-link" action="{% url 'accounts:delete' %}" method="POST">
+          {% csrf_token %}
+          <input type="submit" value="회원탈퇴">
+        </form>
+        <a class="nav-item nav-link text-danger" href="{% url 'accounts:logout' %}">로그아웃</a>
+        {% else %}
+        <a class="nav-item nav-link" href="{% url 'accounts:login' %}">로그인</a>
+        <a class="nav-item nav-link" href="{% url 'accounts:signup' %}">회원가입</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
   
   <div class="container">
     {% block body %}
