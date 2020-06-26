@@ -6,16 +6,17 @@
 <a href="{% url 'articles:create' %}" class="btn btn-primary">[CREATE]</a>
 {% endif %}
 <hr>
+<div class="row">
 {% for article in articles %}
 
-<div class="card border-success mb-3" style="max-width: 34rem;">
+<div class="card border-success mb-3" style="max-width: 21.4rem;">
   <div class="card-header bg-transparent border-success">
     제목 : <a href="{% url 'articles:detail' article.pk %}">{{ article.title }}</a>
   </div>
   <div class="card-body text-success">
     <!-- <h5 class="card-title">Success card title</h5> -->
     {% if article.image %}
-      <img src="{{ article.image_thumbnail.url }}" alt="{{ article.image }}">
+      <img src="{{ article.image_thumbnail.url }}" alt="{{ article.image }}" width="300px" height="200px">
     {% else %}
       <img src="" alt="이미지가 없습니다">
     {% endif %}
@@ -31,7 +32,12 @@
     </div>
   </div>
 </div>
-
- <hr>
+<hr>
+{% endfor %}
+</div>
+{% for num in articles.paginator.page_range %}
+  <a href="{% url 'articles:index' %}?page={{ num }}">
+    {{ num }}
+  </a>
 {% endfor %}
 {% endblock %}

@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% block body %}
 <h1>{{ person.username }}</h1>
+{% if user != person %}
+  {% if user in person.followers.all %}
+    <a href="{% url 'accounts:follow' person.pk %}">팔로우</a>
+  {% else %}
+    <a href="{% url 'accounts:follow' person.pk %}">팔로우취소</a>
+  {% endif %}
+{% endif %}
 <div class="container">
   <div class="row">
     
@@ -15,8 +22,8 @@
         <tbody>
           {% for article in person.article_set.all %}
           <tr>
-            <th scope="row">1</th>
-            <td>{{ article.title}}</td>
+            <th scope="row">#</th>
+            <td>{{ article.title }}</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -34,8 +41,8 @@
         <tbody>
           {% for like in person.like_articles.all %}
           <tr>
-            <th scope="row">1</th>
-            <td>{{ like.title}}</td>
+            <th scope="row">#</th>
+            <td>{{ like.title }}</td>
           {% empty %}
           <tr>
             <td>댓글을 단 적이 없습니다</td>
@@ -51,14 +58,14 @@
         <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
-            <th scope="col">나의 추천 글</th>
+            <th scope="col">나의 추천 글 {{ person.recommend_articles.all|length }}</th>
           </tr>
         </thead>
         <tbody>
           {% for recommend in person.recommend_articles.all %}
           <tr>
-            <th scope="row">1</th>
-            <td>{{ recommend.title}}</td>
+            <th scope="row">#</th>
+            <td>{{ recommend.title }}</td>
           {% empty %}
           <tr>
             <td>댓글을 단 적이 없습니다</td>
@@ -80,7 +87,7 @@
         <tbody>
           {% for comment in person.comment_set.all %}
           <tr>
-            <th scope="row">1</th>
+            <th scope="row">#</th>
             <td>{{ comment.content}}</td>
           {% empty %}
           <tr>

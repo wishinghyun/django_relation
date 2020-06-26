@@ -9,7 +9,7 @@
 {% else %}
   <img src="" alt="이미지가 없습니다">
 {% endif %}
-<h5>작성자 : {{ article.user.username }}</h5>
+<h5>작성자 : <a href="{% url 'accounts:profile' article.user.username %}">{{ article.user.username }}</a></h5>
 <hr>
 {% if user.is_authenticated %}
 <form action="{% url 'articles:comment_create' article.pk %}" method="POST">

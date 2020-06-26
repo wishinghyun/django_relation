@@ -7,10 +7,17 @@ from .models import Article, Comment
 from .forms import ArticleForm, CommentForm
 from IPython import embed
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 # Create your views here.
 def index(request):
     articles = Article.objects.all()
+    # 1. Paginator(전체리스트, 한 페이지당 갯수)
+    paginator = Paginator(articles, 3)
+    # 2. 몇 번째 페이지를 보여줄 것인지 GET으로 받기
+    page = request.GET.get('page')# 'articles/?page=3'     url이 이런 식으로 됨
+    # 3. 해당하는 페이지의 게시글만 가져오기
+    articles = paginator.get_page(page)  # articles에 재할당
     context = {
         'articles': articles
     }
