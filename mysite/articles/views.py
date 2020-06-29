@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 # DVDH
 # django가 주는 views에서 쓸 decorators http를 위한
+from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from .models import Article, Comment
@@ -113,9 +114,15 @@ def like(request, article_pk):
     # 사용자가 게시글의 좋아요 목록에 있으면 true리턴
     if user in article.like_users.all():
         article.like_users.remove(user)
+        liked = False
     else:
         article.like_users.add(user)
-    return redirect('articles:index')
+        liked = True
+    context = {
+        'liked' : liked,
+        'count' : article.like_users.count()
+    }
+    return JsonResponse(context)
 
 @login_required
 def recommend(request, article_pk):

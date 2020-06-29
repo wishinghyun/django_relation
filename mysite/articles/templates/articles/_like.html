@@ -1,8 +1,8 @@
 <div style="float: left; width: 33%;">
   {% if user in article.like_users.all %}
-    <a href="{% url 'articles:like' article.pk %}"><i class="fas fa-heart fa-lg text-danger"></i></a>
+    <i class="fas fa-heart fa-lg like-button" data-id="{{ article.id }}" style="color: crimson;"></i>
   {% else %}
-    <a href="{% url 'articles:like' article.pk %}"><i class="far fa-heart fa-lg text-danger"></i></a>
+    <i class="far fa-heart fa-lg like-button" data-id="{{ article.id }}" style="color: black;"></i>
   {% endif %}
-  <p>좋아요 : {{ article.like_users.count }}개</p>
+  <p id="like-count-{{ article.id }}">좋아요 : {{ article.like_users.count }}개</p>
 </div>

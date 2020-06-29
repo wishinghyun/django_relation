@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block body %}
 <h1>메인 페이지 입니다.</h1>
 <hr>
@@ -40,4 +41,6 @@
     {{ num }}
   </a>
 {% endfor %}
+
+  <script src="{% static 'articles/js/like.js' %}"></script>
 {% endblock %}
